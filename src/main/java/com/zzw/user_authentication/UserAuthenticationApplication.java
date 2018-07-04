@@ -1,12 +1,45 @@
 package com.zzw.user_authentication;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.Environment;
+
+import com.google.common.base.Strings;
+import com.zzw.user_authentication.profile.DefaultProfileUtil;
 
 @SpringBootApplication
-public class UserAuthenticationApplication {
+@EntityScan(basePackageClasses = { UserAuthenticationApplication.class})
+@ComponentScan({ "com.zzw" })
+public class UserAuthenticationApplication implements CommandLineRunner {
+	private static final Logger logger = LoggerFactory.getLogger(UserAuthenticationApplication.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(UserAuthenticationApplication.class, args);
+	public static void main(String[] args) throws UnknownHostException {
+		SpringApplication app = new SpringApplication(UserAuthenticationApplication.class);
+		app.addListeners();
+		DefaultProfileUtil.addDefaultProfile(app);
+		Environment env = app.run(args).getEnvironment();
+		String protocol = env.getProperty("server.ssl.key-store") == null ? "http" : "https";
+		logger.info(
+				"\n----------------------------------------------------------\n\t"
+						+ "Application '{}' is running! Access URLs:\n\t" + "Local: \t\t{}://localhost:{}{}\n\t"
+						+ "External: \t{}://{}:{}{}\n\t"
+						+ "Profile(s): \t{}\n----------------------------------------------------------",
+				env.getProperty("spring.application.name"), protocol, env.getProperty("server.port"),
+				Strings.nullToEmpty(env.getProperty("server.contextPath")), protocol,
+				InetAddress.getLocalHost().getHostAddress(), env.getProperty("server.port"),
+				Strings.nullToEmpty(env.getProperty("server.contextPath")), env.getActiveProfiles());
+	}
+
+	@Override
+	public void run(String... arg0) throws Exception {
+
 	}
 }

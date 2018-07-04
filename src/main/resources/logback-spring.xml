@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProfile name="dev">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </springProfile>
+    <springProfile name="sit, uat, prod">
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <springProperty scope="context" name="application.name" source="spring.application.name"/>
+
+        <include resource="appenders/file-appender.xml"/>
+
+        <root level="info">
+            <appender-ref ref="FILE-ROLLING"/>
+        </root>
+    </springProfile>
+</configuration>

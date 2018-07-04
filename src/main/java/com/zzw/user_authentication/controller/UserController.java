@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 	@GetMapping(value = "/getUser")
 	public String getUser() {
-		return "lisi";
+		return "王五";
 	}
-
+	
 }

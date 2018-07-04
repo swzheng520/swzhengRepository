@@ -1,0 +1,18 @@
+server:
+  port: 10001
+spring:
+  application:
+    name: user-authentication
+logging:
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr([%thread]){cyan} %clr(%5p %c{1}:%L - %msg%n)"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
