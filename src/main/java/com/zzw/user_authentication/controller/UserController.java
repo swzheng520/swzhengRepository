@@ -11,5 +11,9 @@ public class UserController {
 	public String getUser() {
 		return "王五";
 	}
-	
+
+	@GetMapping(value = "/uuu")
+	public String getuuu() {
+		return "sss";
+	}
 }
