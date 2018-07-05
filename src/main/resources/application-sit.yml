@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: sit
+  mail:
+    host: smtp.exmail.qq.com
+    username: job-schedule-sit@anxintrust.com
+    password: Axxt600816
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+      
+    default-encoding: UTF-8
+
