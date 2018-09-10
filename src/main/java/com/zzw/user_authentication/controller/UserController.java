@@ -1,19 +1,38 @@
 package com.zzw.user_authentication.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.zzw.user_authentication.domain.entity.SysUser;
+import com.zzw.user_authentication.domain.repository.SysUserRepository;
+import com.zzw.user_authentication.service.user.AuthService;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	@GetMapping(value = "/getUser")
-	public String getUser() {
-		return "二小放牛郎";
+	@Autowired
+	private AuthService authService;
+	@Autowired
+	private SysUserRepository sysUserRepository;
+
+	@PostMapping(value = "/login")
+	public String login(@RequestBody SysUser user) {
+		return authService.login(user.getUsername(), user.getPassword());
 	}
 
-	@GetMapping(value = "/uuu")
-	public String getuuu() {
-		return "sss";
+	@PostMapping(value = "/register")
+	public SysUser register(@RequestBody SysUser user) {
+		return authService.register(user);
 	}
+
+	@GetMapping(value = "/getUser/{userName}")
+	public SysUser getUser(@PathVariable String userName) {
+		return sysUserRepository.findByUsername(userName);
+	}
+
 }

@@ -9,6 +9,8 @@ public final class ProfileConstant {
 	public static final String SPRING_PROFILE_SWAGGER = "swagger";
 
 	private ProfileConstant() {
+		
 	}
-
+	
 }
+

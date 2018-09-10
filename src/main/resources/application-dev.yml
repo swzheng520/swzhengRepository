@@ -1,17 +1,34 @@
 spring:
   profiles:
     active: dev
-  mail:
-    host: smtp.exmail.qq.com
-    username: job-schedule-sit@anxintrust.com
-    password: Axxt600816
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-      
-    default-encoding: UTF-8
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/security_db?useUnicode=true&characterEncoding=utf-8
+    username: root
+    # 生产修改字段
+    password: 123456
+    tomcat:
+      max-active: 50
+      max-idle: 50
+      min-idle: 10
+      initial-size: 5
+      test-on-borrow: true
+      test-while-idle: true
+      validation-query: select 1 from dual
+      log-validation-errors: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate.ddl-auto: none
+    
+    
+jwt: 
+  header: Authorization
+  secret: mySecret
+  expiration: 10
+  tokenHead: Bearer
+  
+
 
