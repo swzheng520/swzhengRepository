@@ -9,9 +9,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.zzw.user_authentication.config.JwtConfigPropertis;
 import com.zzw.user_authentication.domain.entity.SysUser;
-import com.zzw.user_authentication.domain.repository.SysUserRepository;
+import com.zzw.user_authentication.domain.repository.UserRepository;
 import com.zzw.user_authentication.service.jwt.JwtTokenService;
 
 @Service
@@ -20,11 +21,11 @@ public class AuthServiceImpl implements AuthService {
 	private AuthenticationManager authenticationManager;
 	private UserDetailsService userDetailsService;
 	private JwtTokenService jwtTokenService;
-	private SysUserRepository userRepository;
+	private UserRepository userRepository;
 	private JwtConfigPropertis jwtConfigPropertis;
 
 	public AuthServiceImpl(AuthenticationManager authenticationManager, UserDetailsService userDetailsService,
-			JwtTokenService jwtTokenUtil, SysUserRepository userRepository, JwtConfigPropertis jwtConfigPropertis) {
+			JwtTokenService jwtTokenUtil, UserRepository userRepository, JwtConfigPropertis jwtConfigPropertis) {
 		this.authenticationManager = authenticationManager;
 		this.userDetailsService = userDetailsService;
 		this.jwtTokenService = jwtTokenUtil;
@@ -33,15 +34,19 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public SysUser register(SysUser userToAdd) {
+	public String register(SysUser userToAdd) throws Exception {
 		final String username = userToAdd.getUsername();
 		if (userRepository.findByUsername(username) != null) {
-			return null;
+			throw new Exception("用户已存在");
 		}
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		final String rawPassword = userToAdd.getPassword();
 		userToAdd.setPassword(encoder.encode(rawPassword));
-		return userRepository.save(userToAdd);
+		userToAdd = userRepository.save(userToAdd);
+		if (!Strings.isNullOrEmpty(userToAdd.getId())) {
+			return "success";
+		}
+		return "fail";
 	}
 
 	@Override

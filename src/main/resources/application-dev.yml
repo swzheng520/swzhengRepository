@@ -30,5 +30,8 @@ jwt:
   expiration: 10
   tokenHead: Bearer
   
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  
 
 

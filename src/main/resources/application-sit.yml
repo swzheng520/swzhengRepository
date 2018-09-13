@@ -35,4 +35,5 @@ jwt:
       refresh: auth/refresh
       register: auth/register
 
-
+mybatis:
+  config-location: classpath:mybatis-config.xml

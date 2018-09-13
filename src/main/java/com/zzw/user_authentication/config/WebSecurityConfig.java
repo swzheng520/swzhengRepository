@@ -12,8 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import com.zzw.user_authentication.security.JwtAuthTokenFilter;
+import com.zzw.user_authentication.security.JwtFilterInvocationSecurityMetadataSource;
+import com.zzw.user_authentication.security.JwtFilterSecurityInterceptor;
 import com.zzw.user_authentication.security.JwtLoginFilter;
 import com.zzw.user_authentication.service.jwt.JwtTokenService;
 
@@ -27,12 +30,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtConfigPropertis jwtConfigPropertis;
 
 	private JwtTokenService jwtTokenService;
-
+	
+	private JwtFilterSecurityInterceptor jwtFilterSecurityInterceptor;
+	
 	public WebSecurityConfig(UserDetailsService userDetailsService, JwtConfigPropertis jwtConfigPropertis,
-			JwtTokenService jwtTokenService) {
+			JwtTokenService jwtTokenService,JwtFilterSecurityInterceptor jwtFilterSecurityInterceptor,
+			JwtFilterInvocationSecurityMetadataSource jwtFilterInvocationSecurityMetadataSource) {
 		this.userDetailsService = userDetailsService;
 		this.jwtConfigPropertis = jwtConfigPropertis;
 		this.jwtTokenService = jwtTokenService;
+		this.jwtFilterSecurityInterceptor = jwtFilterSecurityInterceptor;
 	}
 
 	// 装载BCrypt密码编码器
@@ -49,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
 		auth
 				// 设置UserDetailsService
 				.userDetailsService(userDetailsService)
@@ -58,10 +66,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/user/register")
-				.permitAll().antMatchers("/user/login").permitAll().anyRequest().authenticated().and()
-				.addFilter(new JwtLoginFilter(authenticationManager())).addFilter(new JwtAuthTokenFilter(
-						authenticationManager(), jwtConfigPropertis, jwtTokenService, userDetailsService));
+		httpSecurity.cors().and().csrf().disable().authorizeRequests()
+		.antMatchers(HttpMethod.POST, "/user/login").permitAll()
+		.antMatchers(HttpMethod.POST, "/user/register").permitAll()
+		.anyRequest().authenticated().and()
+		.addFilter(new JwtLoginFilter(authenticationManager()))
+		.addFilter(new JwtAuthTokenFilter(authenticationManager(), jwtConfigPropertis, jwtTokenService, userDetailsService))
+		.addFilterBefore(jwtFilterSecurityInterceptor, FilterSecurityInterceptor.class);
 		// 禁用缓存
 		httpSecurity.headers().cacheControl();
 	}

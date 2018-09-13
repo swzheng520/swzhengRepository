@@ -3,7 +3,7 @@ package com.zzw.user_authentication.service.user;
 import com.zzw.user_authentication.domain.entity.SysUser;
 
 public interface AuthService {
-	SysUser register(SysUser user);
+	String register(SysUser user)throws Exception;
 
 	String login(String username, String password);
 

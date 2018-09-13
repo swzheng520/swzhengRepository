@@ -115,11 +115,10 @@ public class JwtTokenService implements Serializable {
 	}
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		SysUser user = (SysUser) userDetails;
 		final String username = getUsernameFromToken(token);
 		//final Date created = getCreatedDateFromToken(token);
 		// final Date expiration = getExpirationDateFromToken(token);
-		return (username.equals(user.getUsername()) && !isTokenExpired(token)
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token)
 				/*&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())*/);
 	}
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.user_authentication.domain.entity">
+	<select id = "findPermissionListByUserId" resultType="SysPermission">
+		select
+			permisson.id as id,
+			permisson.`name` as permissionName,
+			permisson.url as url,
+			permisson.description as description,
+			permisson.method as method,
+			permisson.pid as pid
+		from sys_user su
+		inner join sys_user_role ur
+		on ur.sys_user_id = su.id
+		inner join sys_role role
+		on role.id = ur.sys_role_id
+		inner join sys_role_permission realtion
+		on realtion.sys_role_id = role.id
+		inner join sys_permission permisson
+		on permisson.id = realtion.sys_permission_id
+		where su.name = #{userName}
+	</select>
+	
+	
+	<select id = "findPermissionListByUserName" resultType="SysPermission">
+		select
+			permisson.id as id,
+			permisson.`name` as permissionName,
+			permisson.url as url,
+			permisson.description as description,
+			permisson.method as method,
+			permisson.pid as pid
+		from 
+		sys_role role
+		inner join sys_role_permission realtion
+		on realtion.sys_role_id = role.id
+		inner join sys_permission permisson
+		on permisson.id = realtion.sys_permission_id
+	</select>
+</mapper>
