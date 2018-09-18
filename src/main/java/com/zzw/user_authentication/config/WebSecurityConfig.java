@@ -11,12 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
+import com.zzw.user_authentication.domain.dao.PermissionDao;
 import com.zzw.user_authentication.security.JwtAuthTokenFilter;
-import com.zzw.user_authentication.security.JwtFilterInvocationSecurityMetadataSource;
-import com.zzw.user_authentication.security.JwtFilterSecurityInterceptor;
+import com.zzw.user_authentication.security.JwtAuthenticationProvider;
 import com.zzw.user_authentication.security.JwtLoginFilter;
 import com.zzw.user_authentication.service.jwt.JwtTokenService;
 
@@ -26,26 +24,18 @@ import com.zzw.user_authentication.service.jwt.JwtTokenService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private UserDetailsService userDetailsService;
-
 	private JwtConfigPropertis jwtConfigPropertis;
-
 	private JwtTokenService jwtTokenService;
-	
-	private JwtFilterSecurityInterceptor jwtFilterSecurityInterceptor;
+	private PermissionDao permissionDao;
+	private AuthConfigPropertis authConfigPropertis;
 	
 	public WebSecurityConfig(UserDetailsService userDetailsService, JwtConfigPropertis jwtConfigPropertis,
-			JwtTokenService jwtTokenService,JwtFilterSecurityInterceptor jwtFilterSecurityInterceptor,
-			JwtFilterInvocationSecurityMetadataSource jwtFilterInvocationSecurityMetadataSource) {
+			JwtTokenService jwtTokenService,PermissionDao permissionDao,AuthConfigPropertis authConfigPropertis) {
 		this.userDetailsService = userDetailsService;
 		this.jwtConfigPropertis = jwtConfigPropertis;
 		this.jwtTokenService = jwtTokenService;
-		this.jwtFilterSecurityInterceptor = jwtFilterSecurityInterceptor;
-	}
-
-	// 装载BCrypt密码编码器
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		this.permissionDao = permissionDao;
+		this.authConfigPropertis = authConfigPropertis;
 	}
 
 	@Bean
@@ -56,12 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-		auth
-				// 设置UserDetailsService
-				.userDetailsService(userDetailsService)
-				// 使用BCrypt进行密码的hash
-				.passwordEncoder(passwordEncoder());
+		auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService, new BCryptPasswordEncoder() ,
+				permissionDao,authConfigPropertis));
 	}
 
 	@Override
@@ -69,10 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.cors().and().csrf().disable().authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/user/login").permitAll()
 		.antMatchers(HttpMethod.POST, "/user/register").permitAll()
+		.antMatchers(HttpMethod.GET, "/user/publicKey/**").permitAll()
 		.anyRequest().authenticated().and()
 		.addFilter(new JwtLoginFilter(authenticationManager()))
-		.addFilter(new JwtAuthTokenFilter(authenticationManager(), jwtConfigPropertis, jwtTokenService, userDetailsService))
-		.addFilterBefore(jwtFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+		.addFilter(new JwtAuthTokenFilter(authenticationManager(), jwtConfigPropertis, jwtTokenService, userDetailsService));
 		// 禁用缓存
 		httpSecurity.headers().cacheControl();
 	}

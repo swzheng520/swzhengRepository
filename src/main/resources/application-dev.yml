@@ -29,6 +29,9 @@ jwt:
   secret: mySecret
   expiration: 10
   tokenHead: Bearer
+auth:
+  is-encrypt-password: true
+  
   
 mybatis:
   config-location: classpath:mybatis-config.xml

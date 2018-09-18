@@ -31,6 +31,11 @@ public class UserController {
 		return authService.register(user);
 	}
 
+	@GetMapping(value = "/publicKey/{userName}")
+	public String publicKey(@PathVariable String userName) {
+		return authService.publicKey(userName);
+	}
+
 	@PreAuthorize("hasAuthority('admin')")
 	@GetMapping(value = "/getUser/{userName}")
 	public SysUser getUser(@PathVariable String userName) {

@@ -14,10 +14,6 @@ public class PermissionDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<SysPermission> findPermissionListByUserId(String userId) {
-		return sqlSession.selectList("findPermissionListByUserId", userId);
-	}
-	
 	public List<SysPermission> findPermissionListByUserName(String userName) {
 		return sqlSession.selectList("findPermissionListByUserName", userName);
 		
