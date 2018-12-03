@@ -33,8 +33,7 @@ auth:
   is-encrypt-password: true
   
   
-mybatis:
-  config-location: classpath:mybatis-config.xml
+
   
 
 

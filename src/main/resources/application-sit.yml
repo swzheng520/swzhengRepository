@@ -4,9 +4,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/security_db?useUnicode=true&characterEncoding=utf-8
-    username: crm_sit
+    username: root
     # 生产修改字段
-    password: crm_sit
+    password: 123456
     tomcat:
       max-active: 50
       max-idle: 50
@@ -24,16 +24,14 @@ spring:
     hibernate.ddl-auto: none
     
     
-jwt:
+jwt: 
   header: Authorization
   secret: mySecret
   expiration: 10
   tokenHead: Bearer
-  route: 
-    authentication:
-      path: auth/login
-      refresh: auth/refresh
-      register: auth/register
+auth:
+  is-encrypt-password: true
+  
+  
 
-mybatis:
-  config-location: classpath:mybatis-config.xml
+

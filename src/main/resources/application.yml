@@ -16,3 +16,6 @@ management:
   endpoint:
     health:
       show-details: always
+      
+mybatis:
+  config-location: classpath:mybatis-config.xml
