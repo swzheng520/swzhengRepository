@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<docker.image.prefix>swrepository</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -105,8 +106,8 @@
 					<!-- 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 -->
 					<!-- 详见：https://github.com/spotify/docker-maven-plugin Invalid repository 
 						name ... only [a-z0-9-_.] are allowed -->
-					<imageName>${project.artifactId}:${project.version}</imageName><!-- 
-						镜像名称 -->
+					<!-- 如果要将docker镜像push到DockerHub上去的话，这边的路径要和repo路径一致 -->
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
 					<!-- 指定Dockerfile所在的路径 -->
 					<dockerDirectory>${basedir}/src/main/resources</dockerDirectory>
 					<resources>
@@ -116,6 +117,9 @@
 							<include>${project.build.finalName}.jar</include>
 						</resource>
 					</resources>
+					<!-- 以下两行是为了docker push到DockerHub使用的。 -->
+					<serverId>docker-hub</serverId>
+					<registryUrl>https://hub.docker.com/r/swzheng520/swrepository/</registryUrl>
 				</configuration>
 			</plugin>
 		</plugins>
