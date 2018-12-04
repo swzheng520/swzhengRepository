@@ -102,7 +102,37 @@
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.12</version>
+				<version>0.4.13</version>
+				<executions>
+					<execution>
+						<id>build-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>tag-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+						<configuration>
+							<image>${docker.registry.name}/${project.artifactId}:${project.version}</image>
+							<newName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</newName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>push-image</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
+						</configuration>
+					</execution>
+				</executions>
 				<configuration>
 					<!-- 以下两行是为了docker push到DockerHub使用的。 -->
 					<serverId>docker-hub</serverId>
