@@ -22,7 +22,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<docker.image.prefix>developrep</docker.image.prefix>
+		<docker.repostory>https://hub.docker.com/</docker.repostory>
+		<docker.registry.name>swrepository</docker.registry.name>
 	</properties>
 
 	<dependencies>
@@ -103,13 +104,20 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.12</version>
 				<configuration>
+					<!-- 以下两行是为了docker push到DockerHub使用的。 -->
+					<serverId>docker-hub</serverId>
+					<registryUrl>https://hub.docker.com</registryUrl>
+					<pushImage>true</pushImage>
+					<!-- 指定Dockerfile所在的路径 -->
+					<dockerDirectory>${basedir}/src/main/resources</dockerDirectory>
 					<!-- 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 -->
 					<!-- 详见：https://github.com/spotify/docker-maven-plugin Invalid repository 
 						name ... only [a-z0-9-_.] are allowed -->
 					<!-- 如果要将docker镜像push到DockerHub上去的话，这边的路径要和repo路径一致 -->
-					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-					<!-- 指定Dockerfile所在的路径 -->
-					<dockerDirectory>${basedir}/src/main/resources</dockerDirectory>
+					<imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
+					<imageTags>
+						<imageTag>latest</imageTag>
+					</imageTags>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
@@ -117,9 +125,6 @@
 							<include>${project.build.finalName}.jar</include>
 						</resource>
 					</resources>
-					<!-- 以下两行是为了docker push到DockerHub使用的。 -->
-					<serverId>docker-hub</serverId>
-					<registryUrl>https://hub.docker.com/u/swzheng520/</registryUrl>
 				</configuration>
 			</plugin>
 		</plugins>
