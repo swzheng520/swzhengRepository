@@ -23,7 +23,7 @@ public class UserController {
 
 	@GetMapping(value = "/demo")
 	public String demo() {
-		return "demo";
+		return "test";
 	}
 
 	@PostMapping(value = "/login")

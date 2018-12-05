@@ -110,7 +110,7 @@
 					<!-- 如果要将docker镜像push到DockerHub上去的话，这边的路径要和repo路径一致 -->
 					<imageName>${docker.repostory}/${docker.image.prefix}</imageName>
 					<imageTags>
-						<imageTag>1.0.0</imageTag>
+						<imageTag>1.0.1</imageTag>
 					</imageTags>
 					<!-- 指定Dockerfile所在的路径 -->
 					<dockerDirectory>${basedir}/src/main/resources</dockerDirectory>
