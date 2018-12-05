@@ -21,6 +21,11 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@GetMapping(value = "/demo")
+	public String demo() {
+		return "demo";
+	}
+
 	@PostMapping(value = "/login")
 	public String login(@RequestBody SysUser user) {
 		return authService.login(user.getUsername(), user.getPassword());
