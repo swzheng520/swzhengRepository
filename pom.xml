@@ -113,10 +113,10 @@
 						<imageTag>1.0.3</imageTag>
 					</imageTags>
 					<!-- 指定Dockerfile所在的路径 -->
-					<dockerDirectory>${basedir}/src/main/resources</dockerDirectory>
+					<dockerDirectory>/src/main/resources</dockerDirectory>
 					<resources>
 						<resource>
-							<targetPath>/</targetPath>
+						<!-- 	<targetPath>/</targetPath> -->
 							<directory>${project.build.directory}</directory>
 							<include>${project.build.finalName}.jar</include>
 						</resource>
