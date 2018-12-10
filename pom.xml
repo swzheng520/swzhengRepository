@@ -104,6 +104,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.13</version>
 				<configuration>
+				<dockerHost>http://192.168.149.130:2375</dockerHost>
 					<!-- 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 -->
 					<!-- 详见：https://github.com/spotify/docker-maven-plugin Invalid repository 
 						name ... only [a-z0-9-_.] are allowed -->
