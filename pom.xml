@@ -125,7 +125,7 @@
 					<!-- 以下两行是为了docker push到DockerHub使用的。 -->
 					<serverId>docker-hub</serverId>
 					<registryUrl>https://hub.docker.com</registryUrl>
-					<pushImage>false</pushImage>
+					<pushImage>true</pushImage>
 				</configuration>
 			</plugin>
 		</plugins>
