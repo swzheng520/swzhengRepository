@@ -1,6 +1,6 @@
 FROM java:8
 VOLUME /tmp
-ADD user-authentication-1.0.0.jar app.jar
+ADD ${workspace}/target/user-authentication-1.0.0.jar app.jar
 
 RUN bash -c 'touch /app.jar'
 EXPOSE 10001
