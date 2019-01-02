@@ -32,6 +32,7 @@ jwt:
 auth:
   is-encrypt-password: true
   
-  
+env: 
+  test: sit
 
 

@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/user/login").permitAll()
 		.antMatchers(HttpMethod.POST, "/user/register").permitAll()
 		.antMatchers(HttpMethod.GET, "/user/publicKey/**").permitAll()
-		.antMatchers(HttpMethod.GET, "/user/demo").permitAll()
+		.antMatchers(HttpMethod.GET, "/user/env").permitAll()
 		.anyRequest().authenticated().and()
 		.addFilter(new JwtLoginFilter(authenticationManager()))
 		.addFilter(new JwtAuthTokenFilter(authenticationManager(), jwtConfigPropertis, jwtTokenService, userDetailsService));

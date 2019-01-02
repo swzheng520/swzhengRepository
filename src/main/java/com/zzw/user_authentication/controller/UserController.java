@@ -1,6 +1,7 @@
 package com.zzw.user_authentication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ public class UserController {
 	private AuthService authService;
 	@Autowired
 	private UserRepository userRepository;
+	@Value("${env.test}")
+	private String env;
 
 	@GetMapping(value = "/demo")
 	public String demo() {
@@ -45,6 +48,11 @@ public class UserController {
 	@GetMapping(value = "/getUser/{userName}")
 	public SysUser getUser(@PathVariable String userName) {
 		return userRepository.findByUsername(userName);
+	}
+
+	@GetMapping(value = "/env")
+	public String env() {
+		return env;
 	}
 
 }
