@@ -7,11 +7,11 @@ initialization performed by Boot
 
 <included>
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-.}}/${application.name}}.log}</file>
+        <file>/logs/${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-.}}/${application.name}}.log}</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-.}}/${application.name}}.%d{yyyy-MM-dd}.log}</fileNamePattern>
+            <fileNamePattern>/logs/${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-.}}/${application.name}}.%d{yyyy-MM-dd}.log}</fileNamePattern>
 
             <!-- keep 180 days' worth of history capped at 30GB total size -->
             <maxHistory>180</maxHistory>

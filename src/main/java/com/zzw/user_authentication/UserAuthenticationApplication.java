@@ -1,6 +1,5 @@
 package com.zzw.user_authentication;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
@@ -10,9 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
 
-import com.google.common.base.Strings;
 import com.zzw.user_authentication.profile.DefaultProfileUtil;
 
 @SpringBootApplication
