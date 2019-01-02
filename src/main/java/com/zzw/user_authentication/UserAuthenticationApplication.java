@@ -25,17 +25,17 @@ public class UserAuthenticationApplication implements CommandLineRunner {
 		SpringApplication app = new SpringApplication(UserAuthenticationApplication.class);
 		app.addListeners();
 		DefaultProfileUtil.addDefaultProfile(app);
-		Environment env = app.run(args).getEnvironment();
-		String protocol = env.getProperty("server.ssl.key-store") == null ? "http" : "https";
-		logger.info(
-				"\n----------------------------------------------------------\n\t"
-						+ "Application '{}' is running! Access URLs:\n\t" + "Local: \t\t{}://localhost:{}{}\n\t"
-						+ "External: \t{}://{}:{}{}\n\t"
-						+ "Profile(s): \t{}\n----------------------------------------------------------",
-				env.getProperty("spring.application.name"), protocol, env.getProperty("server.port"),
-				Strings.nullToEmpty(env.getProperty("server.contextPath")), protocol,
-				InetAddress.getLocalHost().getHostAddress(), env.getProperty("server.port"),
-				Strings.nullToEmpty(env.getProperty("server.contextPath")), env.getActiveProfiles());
+		/*Environment env =*/ app.run(args).getEnvironment();
+//		String protocol = env.getProperty("server.ssl.key-store") == null ? "http" : "https";
+//		logger.info(
+//				"\n----------------------------------------------------------\n\t"
+//						+ "Application '{}' is running! Access URLs:\n\t" + "Local: \t\t{}://localhost:{}{}\n\t"
+//						+ "External: \t{}://{}:{}{}\n\t"
+//						+ "Profile(s): \t{}\n----------------------------------------------------------",
+//				env.getProperty("spring.application.name"), protocol, env.getProperty("server.port"),
+//				Strings.nullToEmpty(env.getProperty("server.contextPath")), protocol,
+//				InetAddress.getLocalHost().getHostAddress(), env.getProperty("server.port"),
+//				Strings.nullToEmpty(env.getProperty("server.contextPath")), env.getActiveProfiles());
 	}
 
 	@Override
